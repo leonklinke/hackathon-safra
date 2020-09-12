@@ -11,7 +11,7 @@
 
 .section-lg {
     padding-top: $spacer * 6;
-    padding-bottom: $spacer * 6;
+    // padding-bottom: $spacer * 6;
 }
 
 .section-sm {
@@ -30,6 +30,10 @@
 .section-shaped {
     position: inherit;
     overflow: hidden;
+
+    &.register-account {
+        position: relative !important;
+    }
 
     &.section-hero {
       &:before {
