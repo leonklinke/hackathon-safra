@@ -11,6 +11,7 @@ class Interest extends Model {
      * A hook to verify the ivnestment before save interest
      */
     this.addHook('beforeSave', async (interestInstance) => {
+      //TODO verificar se ainda há espaço para o invetimento (concorrência de investimentos superando o valor limite)
       //check all the investment interests to verify if is complete
       const interests = await this.query()
         .where('investment_id', interestInstance.investment_id)

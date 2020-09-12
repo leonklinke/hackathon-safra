@@ -12,7 +12,7 @@ class StartupSchema extends Schema {
         .inTable('users')
         .onDelete('CASCADE')
       table.timestamp('birthday')
-      table.json('data').comment('site:string, description:string, intro:string, founders:{name:string,role:string,linkedin:string}, video:string')
+      table.json('data').comment('site:string, description:string, sector:string, intro:string, founders:{name:string,role:string,linkedin:string}, video:string')
       table.string('location', 254).comment('city/UF - Country')
       table.decimal('this_year_revenue', 2).comment('expected revenue for this year')
       table.decimal('last_year_revenue', 2).comment('last year real revenue')

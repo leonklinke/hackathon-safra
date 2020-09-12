@@ -4,6 +4,10 @@
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
 /** @typedef {import('@adonisjs/framework/src/View')} View */
 
+const Investment = use("App/Models/Investment")
+const Logger = use('Logger')
+const moment = require('moment')
+
 /**
  * Resourceful controller for interacting with investments
  */
@@ -17,55 +21,81 @@ class InvestmentController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async index ({ request, response, view }) {
+  async index({ request, response, view }) {
+
+  }
+  /**
+   * Search investments.
+   * GET investments/:status/:page
+   *
+   * @param {params} ctx
+   */
+  async get({ params }) {
+    let { page, status } = params
+    let query = await Investment.query()
+    if (status) {
+      query.where('status', status) //'open', 'timeout', 'done', 'canceled'
+    }
+    query.with('startup.user').orderBy('id', 'DESC')
+    const data = query.paginate((page > 0) ? page : 1);
+
+    return data;
   }
 
   /**
-   * Render a form to be used for creating a new investment.
-   * GET investments/create
+   * Creating a new investment.
+   * POST investments/create
    *
    * @param {object} ctx
    * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
    */
-  async create ({ request, response, view }) {
+  async create({ request }) {
+    let investmentData = request.only([
+      "stratup_id",
+      "target_value",
+      "minimum_value",
+      "reached_value",
+      "equity",
+      "end_time",
+    ])
+    return await this.store(investmentData)
   }
 
   /**
-   * Create/save a new investment.
-   * POST investments
+   * Create/save a investment.
+   * intern method
    *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
+   * @param {investmentData} ctx
    */
-  async store ({ request, response }) {
+  async store(investmentData) {
+    try {
+      const investment = await Investment.create(investmentData)
+      if (!investment.id) {
+        return { error: 'Erro inserindo investimento', data: investment }
+      }
+      return investment
+    } catch (error) {
+      error.time = moment()
+      Logger.error('Error InvestmentController:store', error)
+      return { error: "Houve algum problema na criação do investimento" }
+    }
   }
 
   /**
    * Display a single investment.
    * GET investments/:id
    *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
+   * @param {params} ctx
    */
-  async show ({ params, request, response, view }) {
+  async show({ params }) {
+    let { id } = params
+    return await Investment
+      .query()
+      .where('id', id)
+      .with('startup.user')
+      .first()
   }
 
-  /**
-   * Render a form to update an existing investment.
-   * GET investments/:id/edit
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
-  async edit ({ params, request, response, view }) {
-  }
 
   /**
    * Update investment details.
@@ -73,9 +103,26 @@ class InvestmentController {
    *
    * @param {object} ctx
    * @param {Request} ctx.request
-   * @param {Response} ctx.response
    */
-  async update ({ params, request, response }) {
+  async update({ request }) {
+    const data = request.all()
+    try {
+      //finding invetment
+      const invetment = await Investment.findOrFail(data.id)
+      //mergin info
+      invetment.merge(data)
+      //updating invetment
+      const result = await invetment.save()
+      //returning
+      if (!result) {
+        return { error: 'Error atualizando o investimento', data: result }
+      }
+      return invetment
+    } catch (error) {
+      error.time = moment()
+      Logger.error('Error InvestmentController:update', error)
+      return { error: 'Error atualizando o investimento' }
+    }
   }
 
   /**
@@ -84,9 +131,12 @@ class InvestmentController {
    *
    * @param {object} ctx
    * @param {Request} ctx.request
-   * @param {Response} ctx.response
    */
-  async destroy ({ params, request, response }) {
+  async destroy({ request }) {
+    const { id } = request.only(["id"])
+    const investment = await Investment.findOrFail(id);
+    await investment.delete();
+    return id
   }
 }
 

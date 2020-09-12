@@ -6,6 +6,8 @@ const Model = use('Model')
 /** @type {import('@adonisjs/framework/src/Hash')} */
 const Hash = use('Hash')
 
+const Startup = use("App/Models/Startup")
+
 class User extends Model {
   static boot() {
     super.boot()
@@ -17,6 +19,16 @@ class User extends Model {
     this.addHook('beforeSave', async (userInstance) => {
       if (userInstance.dirty.password) {
         userInstance.password = await Hash.make(userInstance.password)
+      }
+    })
+    this.addHook('afterCreate', async (userInstance) => {
+      if (userInstance.type !== 'startup') {
+        // creating startup
+        const startupData = { user_id: userInstance.id }
+        const startupResult = await Startup.create(startupData)
+        if (!startupResult.id) {
+          throw new Error('Error inserting stratup')
+        }
       }
     })
   }

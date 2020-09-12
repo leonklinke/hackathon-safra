@@ -44,6 +44,46 @@ Route.get('userDashboard', 'UserController.dashboard')
 Route.post('/session', 'SessionController.create')
 Route.post('/updateSession', 'SessionController.recreate')
 
+///////////////////////////////////////////////////////////
+///                        STARTUP                      ///
+///////////////////////////////////////////////////////////    
+Route.get('/startup/:page/:status?', 'StartupController.get')
+  .middleware('auth')
+Route.post('/startup', 'StartupController.create')
+  .middleware('auth')
+Route.get('/startup/:id', 'StartupController.show')
+  .middleware('auth')
+Route.put('/startup', 'StartupController.update')
+  .middleware('auth')
+
+///////////////////////////////////////////////////////////
+///                        INVESTMENT                   ///
+///////////////////////////////////////////////////////////    
+Route.get('/investment/:page/:status?', 'InvestmentController.get')
+  .middleware('auth')
+Route.post('/investment', 'InvestmentController.create')
+  .middleware('auth')
+Route.get('/investment/:id', 'InvestmentController.show')
+  .middleware('auth')
+Route.put('/investment', 'InvestmentController.update')
+  .middleware('auth')
+Route.delete('/investment/:id', 'InvestmentController.destroy')
+  .middleware('auth')
+
+///////////////////////////////////////////////////////////
+///                        INTEREST                     ///
+///////////////////////////////////////////////////////////    
+Route.get('/interest/:page/:status?', 'InterestController.get')
+  .middleware('auth')
+Route.post('/interest', 'InterestController.create')
+  .middleware('auth')
+Route.get('/interest/:id', 'InterestController.show')
+  .middleware('auth')
+Route.put('/interest', 'InterestController.update')
+  .middleware('auth')
+Route.delete('/interest/:id', 'InterestController.destroy')
+  .middleware('auth')
+
 
 
 
