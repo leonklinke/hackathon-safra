@@ -33,15 +33,6 @@ class Login extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  doLogin(event) {
-    event.preventDefault();
-    let login = this.state.login;
-    let password = this.state.password;
-    let str = login + ':' + password;
-    console.log(str);
-    Auth.doLogin();
-  }
-
   handleSubmit = async (event) => {
     event.preventDefault();
     let login = this.state.login;

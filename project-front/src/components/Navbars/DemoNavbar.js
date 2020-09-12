@@ -59,7 +59,7 @@ class DemoNavbar extends React.Component {
               <NavbarBrand className="mr-lg-5" to="/" tag={Link}>
                 <img
                   alt="..."
-                  src={require("../../assets/img/brand/logo-safra.png")}
+                  src={require("../../assets/img/brand/logo-safra-branco.svg")}
                 />
               </NavbarBrand>
               <button className="navbar-toggler" id="navbar_global">
@@ -107,14 +107,14 @@ class DemoNavbar extends React.Component {
                     </Link>
                   </NavItem>
                   <NavItem>
-                    <Link className="text-white" to="/" tag={Link}>
+                    <Link className="text-white" to="/investimentos" tag={Link}>
                       <span className="nav-link-inner--text ml-2">
                         Meus Investimentos
                       </span>
                     </Link>
                   </NavItem>
                   <NavItem>
-                    <Link className="text-white" to="/" tag={Link}>
+                    <Link className="text-white" to="/conta" tag={Link}>
                       <span className="nav-link-inner--text ml-2">
                         Conta
                       </span>
