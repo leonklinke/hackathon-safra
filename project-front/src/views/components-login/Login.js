@@ -1,5 +1,6 @@
 import React from "react";
-import Auth from "../services/auth";
+import { Link } from "react-router-dom";
+import Auth from "../../services/auth";
 
 // reactstrap components
 import {
@@ -89,12 +90,12 @@ class Login extends React.Component {
                         <img
                           alt="..."
                           className="img-fluid"
-                          src={require("../assets/img/brand/logo-safra.png")}
+                          src={require("../../assets/img/brand/logo-safra.png")}
                           style={{ width: "200px" }}
                         />
                       </div>
                       <div className="text-center mt-3">
-                        <h2 class="display-4 mb-0">Fazer Login</h2>
+                        <h2 className="display-4 mb-0">Fazer Login</h2>
                       </div>
                     </CardHeader>
                     <CardBody className="px-lg-5 py-lg-5">
@@ -141,6 +142,18 @@ class Login extends React.Component {
                       </Form>
                     </CardBody>
                   </Card>
+                  <Row className="mt-3">
+                    <Col xs="6">
+                      <Link className="text-light" to="/recover-pass" tag={Link}>
+                        <small>Esqueceu a Senha?</small>
+                      </Link>
+                    </Col>
+                    <Col className="text-right" xs="6">
+                    <Link className="text-light" to="/create-account" tag={Link}>
+                        <small>Registrar</small>
+                      </Link>
+                    </Col>
+                  </Row>
                 </Col>
               </Row>
             </Container>
