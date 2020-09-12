@@ -22,6 +22,7 @@ class UserController {
     }
     async login({ auth, request }) {
         const { email, password } = request.only(["email", "password"])
+        console.log("chegou", email, password)
         try {
             const response = await auth.attempt(email, password)
             const userData = await User.query()

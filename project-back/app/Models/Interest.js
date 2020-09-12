@@ -21,10 +21,6 @@ class Interest extends Model {
         .where('investment_id', interestInstance.investment_id)
         .with('investment')
         .fetch()
-      console.log("instance", interestInstance)
-      console.log("instance val", interestInstance.value)
-      console.log("instance val", interestInstance.investment.target_value)
-      console.log("interest", interests)
       let actualValue = 0
       if (interests.isOne) {
         for (const key in interests.data) {

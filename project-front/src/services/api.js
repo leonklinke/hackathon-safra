@@ -1,11 +1,19 @@
 import axios from 'axios';
+import { getToken } from "./auth";
 
-const isDev = true;
-// const BASEURL = (isDev) ? 'http://157.245.209.253:82/v2' : 'https://api.salusapp.com:8443/v2';//devserver
-const BASEURL = (isDev) ? 'http://localhost:83' : 'https://your-production-url:3333';//docker
+// const Env = use('Env')
+const BASEURL = (!process.env.REACT_APP_API_URL ? 'http://localhost:83' : process.env.REACT_APP_API_URL)
 
 const api = axios.create({
     baseURL: BASEURL
 })
+
+api.interceptors.request.use(async config => {
+    const token = await getToken();
+    if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+});
 
 export default api;
