@@ -1,19 +1,13 @@
-# Node-React-full-stack-Boilerplate
-Boilerplate for a full stack project using nodejs (adonisJS), ReactJs as frontEnd, Mysql Database and Docker development based.
+# Hackathon Banco Safra
+
+![](https://www.foregon.com/blog/wp-content/uploads/2018/11/banco-safra.jpg)
+
+This project includes a MonoRepo arch using nodejs (adonisJS), ReactJs as frontEnd, Mysql Database and Docker development based.
 
 ![](https://d2.alternativeto.net/dist/icons/adonis-js_151971.png?width=128&height=128&mode=crop&upscale=false)
 ![](https://bognarjunior.files.wordpress.com/2018/03/if_react-js_logo_1174949.png?w=128)
 ![](https://cdn.iconscout.com/icon/free/png-128/mysql-20-1174940.png)
 ![](https://cdn.iconscout.com/icon/free/png-128/docker-226091.png)
-
-**It contains**
-- Live reload 
-- Jest test https://jestjs.io/
-- Eslint https://eslint.org/
-- React Router Dom https://www.npmjs.com/package/react-router-dom
-- Axios https://www.npmjs.com/package/react-axios
-
-**You can skip docker part and execute everything in your machine** _But if you  are a good person keep going with docker :wink:_
 
 ## Cloning project
 
@@ -89,4 +83,4 @@ $ ./goto back
 adonis migration:run
 ```
 
-**Now you are good to go!! :wink:**
+**Now you are good to go!! Good investments :wink:**
