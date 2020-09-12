@@ -51,7 +51,7 @@ class InvestmentController {
    */
   async create({ request }) {
     let investmentData = request.only([
-      "stratup_id",
+      "startup_id",
       "target_value",
       "minimum_value",
       "reached_value",

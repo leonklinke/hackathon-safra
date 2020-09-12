@@ -14,7 +14,7 @@ class InterestSchema extends Schema {
         .references('id')
         .inTable('investments')
         .onDelete('CASCADE')
-      table.decimal('value', 2)
+      table.decimal('value', 15, 2)
       table.timestamps()
     })
   }

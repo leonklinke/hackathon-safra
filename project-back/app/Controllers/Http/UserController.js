@@ -42,7 +42,7 @@ class UserController {
         }
     }
     async create({ request }) {
-        let userData = request.only(["name", "email", "phone", "password", "type"])
+        let userData = request.only(["name", "email", "code", "phone", "password", "type"])
         return await this.store(userData)
     }
     async store(userData) {
@@ -66,6 +66,7 @@ class UserController {
         let data = request.only([
             'id',
             'name',
+            'code',
             'email',
             'phone'
         ])

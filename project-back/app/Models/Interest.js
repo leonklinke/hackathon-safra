@@ -2,6 +2,7 @@
 
 /** @type {typeof import('@adonisjs/lucid/src/Lucid/Model')} */
 const Model = use('Model')
+const Investment = use("App/Models/Investment")
 
 class Interest extends Model {
   static boot() {
@@ -11,17 +12,26 @@ class Interest extends Model {
      * A hook to verify the ivnestment before save interest
      */
     this.addHook('beforeSave', async (interestInstance) => {
-      //TODO verificar se ainda há espaço para o invetimento (concorrência de investimentos superando o valor limite)
+      const investment = await Investment.query()
+        .where('id', interestInstance.investment_id)
+        .first()
+      const targetValue = investment.target_value
       //check all the investment interests to verify if is complete
       const interests = await this.query()
         .where('investment_id', interestInstance.investment_id)
         .with('investment')
         .fetch()
-      const targetValue = interests.data[0].target_value
-      const actualValue = 0
-      for (const key in interests.data) {
-        actualValue += interests.data[key].value
+      console.log("instance", interestInstance)
+      console.log("instance val", interestInstance.value)
+      console.log("instance val", interestInstance.investment.target_value)
+      console.log("interest", interests)
+      let actualValue = 0
+      if (interests.isOne) {
+        for (const key in interests.data) {
+          actualValue += interests.data[key].value
+        }
       }
+      actualValue += interestInstance.value
       //Didn't get there yet
       //TODO atualizar valor alcançado
       if (actualValue < targetValue) {
