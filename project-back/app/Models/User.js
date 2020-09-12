@@ -7,7 +7,7 @@ const Model = use('Model')
 const Hash = use('Hash')
 
 class User extends Model {
-  static boot () {
+  static boot() {
     super.boot()
 
     /**
@@ -20,19 +20,18 @@ class User extends Model {
       }
     })
   }
-
-  /**
-   * A relationship on tokens is required for auth to
-   * work. Since features like `refreshTokens` or
-   * `rememberToken` will be saved inside the
-   * tokens table.
-   *
-   * @method tokens
-   *
-   * @return {Object}
-   */
-  tokens () {
-    return this.hasMany('App/Models/Token')
+  static get dates() {
+    return super.dates.concat(['token_recovery_created_at'])
+  }
+  static formatDates(field, value) {
+    if (field === 'token_recovery_created_at') {
+      return moment(value).format('YYYY-MM-DD HH:mm:ss')
+    }
+    return super.formatDates(field, value)
+  }
+  //Relations
+  startup() {
+    return this.belongsTo('App/Models/Startup')
   }
 }
 

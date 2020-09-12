@@ -16,9 +16,40 @@
 /** @type {typeof import('@adonisjs/framework/src/Route/Manager')} */
 const Route = use('Route')
 
-Route.get('/', () => {
-  return { success: 'Hello your project API is runnig!   OK' }
-})
-Route.delete('/user/:id', 'UserController.delete')
-Route.post('/user', 'UserController.create')
-Route.get('/user', 'UserController.listAll')
+///////////////////////////////////////////////////////////
+///                        USER                         ///
+///////////////////////////////////////////////////////////
+Route.post('userLogin', 'UserController.login')
+  .middleware('guest')
+Route.post('user', 'UserController.create')
+  .middleware('guest')
+Route.put('user', 'UserController.update')
+  .middleware('auth')
+Route.delete('user', 'UserController.destroy')
+  .middleware('auth')
+Route.get('user', 'UserController.show')
+  .middleware('auth')
+
+Route.put('user/passwordUpdate', 'UserController.passwordUpdate')
+  .middleware('auth')
+Route.post('user/forgotPassword', 'UserController.startPasswordRecovery')
+Route.put('user/recoverPassword', 'UserController.recoverPassword')
+
+Route.get('userDashboard', 'UserController.dashboard')
+  .middleware('auth')
+
+///////////////////////////////////////////////////////////
+///                        SESSION                      ///
+///////////////////////////////////////////////////////////    
+Route.post('/session', 'SessionController.create')
+Route.post('/updateSession', 'SessionController.recreate')
+
+
+
+
+
+
+
+
+
+
