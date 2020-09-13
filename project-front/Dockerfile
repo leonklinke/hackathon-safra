@@ -4,4 +4,4 @@ WORKDIR /project-front
 
 EXPOSE 3000
 
-CMD npm start --watch
+CMD yarn start --watch
