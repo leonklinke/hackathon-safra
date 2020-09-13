@@ -1,9 +1,11 @@
 import React from 'react';
 import { Route, Redirect } from "react-router-dom";
+import { isAuthenticated } from "./services/auth";
 
-const GuardedRoute = ({ component: Component, auth, ...rest }) => (
+
+const GuardedRoute = ({ component: Component, ...rest }) => (
     <Route {...rest} render={(props) => (
-        auth != null
+        isAuthenticated()
             ? <Component {...props} />
             : <Redirect to='/login' />
     )} />

@@ -29,14 +29,14 @@ let token = localStorage.getItem('TOKEN_KEY');
 ReactDOM.render(
   <BrowserRouter>
     <Switch>
-      <GuardedRoute path="/" exact component={Index} auth={token} />
-      <GuardedRoute path="/landing-page" component={Landing} auth={token} />
-      <GuardedRoute path="/ofertas" component={Offers} auth={token} />
-      <GuardedRoute path="/detalhe-ofertas/:id" component={DetailsOffers} auth={token} />
-      <GuardedRoute path="/investimentos" component={Investments} auth={token} />
-      <GuardedRoute path="/detalhe-investimentos/:id" component={DetailsInvestments} auth={token} />
-      <GuardedRoute path="/documentos-essenciais/:id" component={EssentialDocuments} auth={token} />
-      <GuardedRoute path="/conta" component={Account} auth={token} />
+      <GuardedRoute path="/" exact component={Index} />
+      <GuardedRoute path="/landing-page" component={Landing} />
+      <GuardedRoute path="/ofertas" component={Offers} />
+      <GuardedRoute path="/detalhe-ofertas/:id" component={DetailsOffers} />
+      <GuardedRoute path="/investimentos" component={Investments} />
+      <GuardedRoute path="/detalhe-investimentos/:id" component={DetailsInvestments} />
+      <GuardedRoute path="/documentos-essenciais/:id" component={EssentialDocuments} />
+      <GuardedRoute path="/conta" component={Account} />
       <Route path="/login" exact render={props => <Login {...props} />} />
       <Route path="/recover-pass" exact render={props => <PassRecover {...props} />} />
       <Route path="/create-account" exact render={props => <CreateAccount {...props} />} />

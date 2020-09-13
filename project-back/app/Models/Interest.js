@@ -45,7 +45,7 @@ class Interest extends Model {
       //   await BankRoutines.transfer(interest.user, interest.investment.startup.user)
       //   return
       // });
-      await BankRoutines.transfer(interestsJson[0].user, interestsJson[0].investment.startup.user)
+      await BankRoutines.transfer(interestsJson[0].user, interestsJson[0].investment.startup, interestsJson[0].value)
       //TODO notify all by mail
     })
 

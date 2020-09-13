@@ -31,6 +31,7 @@ class InterestController {
    */
   async get({ params }) {
     let { page, investment_id, user_id } = params
+    console.log("param", params)
     let query = Interest.query()
       .with('investment.startup.user')
     if (investment_id) {
@@ -58,6 +59,7 @@ class InterestController {
       "investment_id",
       "value",
     ])
+
     return await this.store(interestData)
   }
 

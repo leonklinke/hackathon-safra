@@ -30,7 +30,7 @@ class SimpleFooter extends React.Component {
                 <img
                   alt="..."
                   src={require("../../assets/img/brand/logo-safra-branco.svg")}
-                />
+                /> I9
               </Col>
               <Col md="6" className="justify-content-end text-right">
                 <span>

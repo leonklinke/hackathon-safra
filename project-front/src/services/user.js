@@ -14,6 +14,28 @@ UserService.listAll = async (data) => {
         console.log("error user list", err);
     }
 }
+UserService.show = async () => {
+    try {
+        const response = await api.get('/user');
+        if (response.data == null) {
+            return [];
+        }
+        return response.data;
+    } catch (err) {
+        console.log("error user list", err);
+    }
+}
+UserService.getInvestments = async (data) => {
+    try {
+        const response = await api.get('/interest/1/' + await getId() + '/');
+        if (response.data == null) {
+            return [];
+        }
+        return response.data;
+    } catch (err) {
+        console.log("error user list", err);
+    }
+}
 UserService.doLogin = async (data) => {
     try {
         //login User

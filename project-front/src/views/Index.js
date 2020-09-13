@@ -1,6 +1,6 @@
-import React from "react";
+import React, { Component } from "react";
 // nodejs library that concatenates classes
-
+import User from "../services/user";
 // reactstrap components
 import {
   Card,
@@ -18,9 +18,29 @@ import SimpleFooter from "../components/Footers/SimpleFooter.js";
 
 // index page sections
 
-class Index extends React.Component {
-  state = {};
-  componentDidMount() {
+export default class Index extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      interests: {},
+      doneInvestments: [],
+      openInvestments: []
+    };
+  }
+  componentDidMount = async () => {
+    this.state.interests = await User.getInvestments()
+    this.state.interests.data.forEach(interest => {
+      if (interest.investment.status == 'done') {
+        let interestArrayTemp = this.state.doneInvestments
+        interestArrayTemp.push(interest)
+        this.setState({ doneInvestments: interestArrayTemp })
+      }
+      if (interest.investment.status == 'open') {
+        let interestArrayTemp = this.state.openInvestments
+        interestArrayTemp.push(interest)
+        this.setState({ openInvestments: interestArrayTemp })
+      }
+    });
     document.documentElement.scrollTop = 0;
     document.scrollingElement.scrollTop = 0;
     this.refs.main.scrollTop = 0;
@@ -44,7 +64,7 @@ class Index extends React.Component {
               </div>
               <Container className="py-lg-md d-flex">
                 <Row className="row-grid align-items-center">
-                  <Col md="9">
+                  <Col md="7">
                     <Row className="my-md">
                       <Col className="mb-5 mb-md-0" md="6">
                         <Card className="card-lift--hover shadow border-0">
@@ -68,7 +88,7 @@ class Index extends React.Component {
                         <Card className="card-lift--hover shadow border-0">
                           <CardImg
                             alt="..."
-                            src={require("../assets/img/theme/landing.jpg")}
+                            src={require("../assets/img/theme/grindtech.png")}
                           />
                         </Card>
                       </Col>
@@ -76,13 +96,13 @@ class Index extends React.Component {
                         <Card className="card-lift--hover shadow border-0">
                           <CardImg
                             alt="..."
-                            src={require("../assets/img/theme/profile.jpg")}
+                            src={require("../assets/img/theme/your_keys.png")}
                           />
                         </Card>
                       </Col>
                     </Row>
                   </Col>
-                  <Col md="3">
+                  <Col md="5">
                     <Card className="border-0">
                       <CardBody className="py-5">
                         <Row>
@@ -90,15 +110,20 @@ class Index extends React.Component {
                         </Row>
                         <Row className="mt-3">
                           <h6 className="font-weight-bold">
-                            Em Financiamento
+                            Em Aberto
                           </h6>
                           <ul>
-                            <li>Startup A{" "}
-                              <ul>
-                                <li>X% Concluído</li>
-                                <li>Y dias para Terminar</li>
-                              </ul>
-                            </li>
+                            {
+                              this.state.openInvestments.map((interest) =>
+                                <li>{interest.investment.startup.user.name}
+                                  <ul>
+                                    <li><b>{interest.investment.reached_value * 100 / interest.investment.target_value}%</b> Concluído</li>
+                                    <li>Você estará comprando: <b>{(interest.value * 100 / interest.investment.target_value) * interest.investment.equity / 100}%</b> de participação dessa startup</li>
+                                  </ul>
+                                </li>
+                              )
+                            }
+
                           </ul>
                         </Row>
                         <Row className="mt-3">
@@ -106,12 +131,17 @@ class Index extends React.Component {
                             Financiados
                           </h6>
                           <ul>
-                            <li>Startup B{" "}
-                              <ul>
-                                <li>R$ X Investidos</li>
-                                <li>Y anos para Finalizar</li>
-                              </ul>
-                            </li>
+                            {
+                              this.state.doneInvestments.map((interest) =>
+                                <li>{interest.investment.startup.user.name}
+                                  <ul>
+                                    <li><b>R$ {interest.investment.reached_value}</b> Investidos</li>
+                                    <li>Você possui <b>{(interest.value * 100 / interest.investment.reached_value) * interest.investment.equity / 100}%</b> de participação dessa startup</li>
+                                  </ul>
+                                </li>
+                              )
+                            }
+
                           </ul>
                         </Row>
                       </CardBody>
@@ -128,4 +158,3 @@ class Index extends React.Component {
   }
 }
 
-export default Index;

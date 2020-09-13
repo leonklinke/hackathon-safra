@@ -22,7 +22,7 @@ class User extends Model {
       }
     })
     this.addHook('afterCreate', async (userInstance) => {
-      if (userInstance.type !== 'startup') {
+      if (userInstance.type === 'startup') {
         // creating startup
         const startupData = { user_id: userInstance.id }
         const startupResult = await Startup.create(startupData)

@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import Investment from "../../services/investment";
 
 // reactstrap components
 import {
@@ -15,8 +16,15 @@ import DemoNavbar from "../../components/Navbars/DemoNavbar.js";
 import SimpleFooter from "../../components/Footers/SimpleFooter.js";
 
 class Offers extends React.Component {
-  state = {};
-  componentDidMount() {
+  constructor(props) {
+    super(props);
+    this.state = {
+      investments: [],
+    };
+  }
+  componentDidMount = async () => {
+    const response = await Investment.getInvestments();
+    this.setState({ investments: response.data })
     document.documentElement.scrollTop = 0;
     document.scrollingElement.scrollTop = 0;
     this.refs.main.scrollTop = 0;
@@ -39,106 +47,39 @@ class Offers extends React.Component {
                 <span />
               </div>
               <Container className="py-lg-md d-flex">
-                <Row className="row-grid">
-                  <Col md="9">
-                    <table className="table table-white table-striped">
-                        <thead>
-                            <tr>
-                                <th scope="col">Startup</th>
-                                <th scope="col">Tipo da Startup</th>
-                                <th scope="col">Meta</th>
-                                <th scope="col">Arrecadado</th>
-                                <th scope="col">Risco</th>
-                                <th scope="col"></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <th scope="row">STARTUP A</th>
-                                <td>Tipo A</td>
-                                <td>Meta</td>
-                                <td>% Arrecadado</td>
-                                <td>Risco</td>
-                                <td>
-                                  <Link className="text-light" to="/detalhe-ofertas/A" tag={Link}>
-                                    <i className="fa fa-search"></i>
-                                  </Link>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">STARTUP B</th>
-                                <td>Tipo A</td>
-                                <td>Meta</td>
-                                <td>% Arrecadado</td>
-                                <td>Risco</td>
-                                <td>
-                                  <Link className="text-light" to="/detalhe-ofertas/B" tag={Link}>
-                                    <i className="fa fa-search"></i>
-                                  </Link>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">STARTUP C</th>
-                                <td>Tipo A</td>
-                                <td>Meta</td>
-                                <td>% Arrecadado</td>
-                                <td>Risco</td>
-                                <td>
-                                  <Link className="text-light" to="/detalhe-ofertas/C" tag={Link}>
-                                    <i className="fa fa-search"></i>
-                                  </Link>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">STARTUP D</th>
-                                <td>Tipo A</td>
-                                <td>Meta</td>
-                                <td>% Arrecadado</td>
-                                <td>Risco</td>
-                                <td>
-                                  <Link className="text-light" to="/detalhe-ofertas/D" tag={Link}>
-                                    <i className="fa fa-search"></i>
-                                  </Link>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                  </Col>
-                  <Col md="3">
-                    <Card className="border-0">
-                      <CardBody className="py-5">
-                        <Row>
-                          <h5>Resumo dos Seus Investimentos</h5>
-                        </Row>
-                        <Row className="mt-3">
-                          <h6 className="font-weight-bold">
-                            Em Financiamento
-                          </h6>
-                          <ul>
-                            <li>Startup A{" "}
-                              <ul>
-                                <li>X% Concluído</li>
-                                <li>Y dias para Terminar</li>
-                              </ul>
-                            </li>
-                          </ul>
-                        </Row>
-                        <Row className="mt-3">
-                          <h6 className="font-weight-bold">
-                            Financiados
-                          </h6>
-                          <ul>
-                            <li>Startup B{" "}
-                              <ul>
-                                <li>R$ X Investidos</li>
-                                <li>Y anos para Finalizar</li>
-                              </ul>
-                            </li>
-                          </ul>
-                        </Row>
-                      </CardBody>
-                    </Card>
-                  </Col>
+                <Row className="full-row">
+                  <table className="table table-white table-striped">
+                    <thead>
+                      <tr>
+                        <th scope="col">Startup</th>
+                        <th scope="col">Tipo da Startup</th>
+                        <th scope="col">Meta</th>
+                        <th scope="col">Arrecadado</th>
+                        <th scope="col">Risco</th>
+                        <th scope="col"></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {
+                        this.state.investments.map((investment) =>
+                          <tr>
+                            <th scope="row">{investment.startup.user.name}</th>
+                            <td>{investment.startup.data.sector}</td>
+                            <td>R${investment.target_value}</td>
+                            <td>{investment.reached_value * 100 / investment.target_value}% </td>
+                            <td>{investment.startup.data.risk}</td>
+                            <td>
+                              <Link className="text-light" to={"/detalhe-ofertas/" + investment.id} tag={Link}>
+                                <i className="fa fa-search"></i>
+                              </Link>
+                            </td>
+                          </tr>
+                        )
+                      }
+
+                    </tbody>
+                  </table>
+
                 </Row>
               </Container>
             </section>

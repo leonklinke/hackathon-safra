@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import User from "../../services/user";
+import { logout } from "../../services/auth";
 
 // JavaScript plugin that hides or shows a component based on your scroll
 import Headroom from "headroom.js";
@@ -44,8 +45,8 @@ class DemoNavbar extends React.Component {
 
   logout = () => {
     // localStorage.removeItem('TOKEN_KEY');
-    User.logout();
-    window.location.href = "/login";
+    logout()
+    window.location.href = "/"
   }
 
   render() {
@@ -62,7 +63,7 @@ class DemoNavbar extends React.Component {
                 <img
                   alt="..."
                   src={require("../../assets/img/brand/logo-safra-branco.svg")}
-                />
+                /> i9
               </NavbarBrand>
               <button className="navbar-toggler" id="navbar_global">
                 <span className="navbar-toggler-icon" />
@@ -92,7 +93,7 @@ class DemoNavbar extends React.Component {
                     </Col>
                   </Row>
                 </div>
-                
+
                 <Nav className="align-items-lg-center ml-lg-auto" navbar>
                   <NavItem>
                     <Link className="text-white" to="/" tag={Link}>

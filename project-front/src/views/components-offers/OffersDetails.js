@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import StarRatings from "react-star-ratings";
+import Investment from "../../services/investment";
 
 // reactstrap components
 import {
@@ -23,13 +24,31 @@ class OffersDetails extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      rating: 3
+      rating: 3,
+      investment: {},
+      percentage: 0,
+      value: 0
     };
-    console.log(this.props.match.params.id);
   }
 
-  
-  render() {
+  componentDidMount = async () => {
+    const { id } = await this.props.match.params;
+    const response = await Investment.showInvestment(id);
+    await this.setState({ investment: response })
+    await this.setState({ percentage: (response.reached_value * 100 / response.target_value) })
+    document.documentElement.scrollTop = 0;
+    document.scrollingElement.scrollTop = 0;
+    this.refs.main.scrollTop = 0;
+  }
+  invest = async () => {
+    console.log("investing")
+    await Investment.invest(this.state.investment.id, this.state.value);
+    window.location.href = "/investimentos";
+  }
+  valueHandler = (event) => this.setState({ value: event.target.value })
+
+
+  content = () => {
     return (
       <>
         <DemoNavbar />
@@ -51,12 +70,12 @@ class OffersDetails extends React.Component {
                   <Row className="row-grid">
                     <Col className="text-white">
                       <div>
-                        <h3>Nome da Startup</h3>
+                        <h3>{this.state.investment.startup.user.name}</h3>
                         <p>
-                          Tipo da Startup
+                          {this.state.investment.startup.data.sector}
                         </p>
                         <p>
-                          Breve Descrição
+                          {this.state.investment.startup.data.intro}
                         </p>
                       </div>
                       <div className="progress-wrapper">
@@ -65,19 +84,19 @@ class OffersDetails extends React.Component {
                             <span>Progresso do Investimento</span>
                           </div>
                           <div className="progress-percentage">
-                            <span className="text-white">40%</span>
+                            <span className="text-white">{this.state.percentage}%</span>
                           </div>
                         </div>
-                        <Progress max="100" value="40" color="default" />
+                        <Progress max="100" value={this.state.percentage} color="default" />
                       </div>
                     </Col>
                     <Col>
                       <div>
                         <span className="text-black">
-                          <b>Tempo Restante</b>
+                          <b>Data Limite</b>
                         </span>
                         <p className="text-white">
-                          DD:HH:MM:SS
+                          {this.state.investment.end_time}
                         </p>
                       </div>
                       <div>
@@ -85,15 +104,15 @@ class OffersDetails extends React.Component {
                           <b>Meta</b>
                         </span>
                         <p className="text-white">
-                          R$ X
+                          R$ {this.state.investment.target_value}
                         </p>
                       </div>
                       <div>
                         <span className="text-black">
-                          <b>Meta</b>
+                          <b>Valor mínimo</b>
                         </span>
                         <p className="text-white">
-                          R$ X
+                          R$ {this.state.investment.minimum_value}
                         </p>
                       </div>
                       <div>
@@ -102,7 +121,7 @@ class OffersDetails extends React.Component {
                         </span>
                         <div>
                           <StarRatings
-                            rating={this.state.rating}
+                            rating={this.state.investment.startup.data.maturity}
                             starRatedColor="yellow"
                             numberOfStars={5}
                             starDimension="20px"
@@ -121,7 +140,7 @@ class OffersDetails extends React.Component {
                           <Col>
                             <FormGroup className="mb-3">
                               <InputGroup className="input-group-alternative">
-                                <Input placeholder="Valor" ref="value" type="text" name="value" id="value" onChange={this.changeHandler} />
+                                <Input placeholder="Valor" ref="value" type="text" name="value" id="value" onChange={(e) => this.valueHandler(e)} />
                               </InputGroup>
                             </FormGroup>
                           </Col>
@@ -179,6 +198,7 @@ class OffersDetails extends React.Component {
                           <Button
                             className="my-4"
                             color="secondary"
+                            onClick={() => this.invest()}
                           >
                             INVESTIR
                           </Button>
@@ -188,7 +208,10 @@ class OffersDetails extends React.Component {
                   </Row>
                   <Row className="row-grid">
                     <Col md="8">
-                      <span className="text-white">Descrição Grande</span>
+                      <span className="text-white">{this.state.investment.startup.data.description}</span>
+                      <iframe width="520" height="315"
+                        src={this.state.investment.startup.data.video}>
+                      </iframe>
                     </Col>
                     <Col md="4">
                       <Button
@@ -207,8 +230,16 @@ class OffersDetails extends React.Component {
         </main>
         <SimpleFooter />
       </>
+    )
+  }
+  render() {
+    return (
+      <>
+        {!Object.keys(this.state.investment).length ? null : this.content()}
+      </>
     );
   }
 }
+
 
 export default OffersDetails;

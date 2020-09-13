@@ -17,7 +17,7 @@ const Hash = use('Hash')
 
 Factory.blueprint('App/Models/User', async (faker, i, data) => {
   return {
-    name: faker.name(),
+    name: (!data.name ? faker.name() : data.name),
     phone: faker.phone(),
     email: (!data.email ? faker.email() : data.email),
     password: (!data.password ? faker.password() : data.password),

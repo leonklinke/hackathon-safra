@@ -59,8 +59,8 @@ Route.put('/startup', 'StartupController.update')
 ///////////////////////////////////////////////////////////
 ///                        INVESTMENT                   ///
 ///////////////////////////////////////////////////////////    
-Route.get('/investment/:page/:status?', 'InvestmentController.get')
-// .middleware('auth')
+Route.get('/investments/:page/:status?', 'InvestmentController.get')
+  .middleware('auth')
 Route.post('/investment', 'InvestmentController.create')
   .middleware('auth')
 Route.get('/investment/:id', 'InvestmentController.show')
@@ -73,10 +73,10 @@ Route.delete('/investment/:id', 'InvestmentController.destroy')
 ///////////////////////////////////////////////////////////
 ///                        INTEREST                     ///
 ///////////////////////////////////////////////////////////    
-Route.get('/interest/:page/:status?', 'InterestController.get')
+Route.get('/interest/:page/:user_id/:investment_id?', 'InterestController.get')
   .middleware('auth')
 Route.post('/interest', 'InterestController.create')
-// .middleware('auth')
+  .middleware('auth')
 Route.get('/interest/:id', 'InterestController.show')
   .middleware('auth')
 Route.put('/interest', 'InterestController.update')
