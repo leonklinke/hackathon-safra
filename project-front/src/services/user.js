@@ -1,4 +1,5 @@
 import api from './api';
+import { login, logout, getId, getType } from './auth';
 
 const UserService = {}
 
@@ -12,6 +13,30 @@ UserService.listAll = async (data) => {
     } catch (err) {
         console.log("error user list", err);
     }
+}
+UserService.doLogin = async (data) => {
+    try {
+        //login User
+        const response = await api.post('/userLogin',
+            {
+                email: data.login,
+                password: data.password
+            }
+        );
+        if (response.data.error) {
+            return response.data;
+        }
+
+        //here we know that the creation is correct
+        await login(response.data.token, response.data.user)
+        return response.data;
+    } catch (err) {
+        console.log("error user login", err);
+    }
+}
+UserService.logout = async () => {
+    await logout()
+    return;
 }
 UserService.create = async (data) => {
     try {

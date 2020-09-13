@@ -6,8 +6,10 @@ const Model = use('Model')
 /** @type {import('@adonisjs/framework/src/Hash')} */
 const Hash = use('Hash')
 
+const Startup = use("App/Models/Startup")
+
 class User extends Model {
-  static boot () {
+  static boot() {
     super.boot()
 
     /**
@@ -19,20 +21,29 @@ class User extends Model {
         userInstance.password = await Hash.make(userInstance.password)
       }
     })
+    this.addHook('afterCreate', async (userInstance) => {
+      if (userInstance.type !== 'startup') {
+        // creating startup
+        const startupData = { user_id: userInstance.id }
+        const startupResult = await Startup.create(startupData)
+        if (!startupResult.id) {
+          throw new Error('Error inserting stratup')
+        }
+      }
+    })
   }
-
-  /**
-   * A relationship on tokens is required for auth to
-   * work. Since features like `refreshTokens` or
-   * `rememberToken` will be saved inside the
-   * tokens table.
-   *
-   * @method tokens
-   *
-   * @return {Object}
-   */
-  tokens () {
-    return this.hasMany('App/Models/Token')
+  static get dates() {
+    return super.dates.concat(['token_recovery_created_at'])
+  }
+  static formatDates(field, value) {
+    if (field === 'token_recovery_created_at') {
+      return moment(value).format('YYYY-MM-DD HH:mm:ss')
+    }
+    return super.formatDates(field, value)
+  }
+  //Relations
+  startup() {
+    return this.belongsTo('App/Models/Startup')
   }
 }
 

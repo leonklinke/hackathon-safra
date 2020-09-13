@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Auth from "../../services/auth";
+import User from "../../services/user";
 
 // reactstrap components
 import {
@@ -33,27 +33,40 @@ class Login extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
+  doLogin(event) {
+    event.preventDefault();
+    let login = this.state.login;
+    let password = this.state.password;
+    let str = login + ':' + password;
+    console.log(str);
+    User.doLogin();
+  }
+
   handleSubmit = async (event) => {
     event.preventDefault();
     let login = this.state.login;
     let password = this.state.password;
 
-    let str = login + ':' + password;
-    let response = await Auth.doLogin(str);
-    
-    if (response) {
-      let token = response.token_type + ' ' + response.access_token;
-      localStorage.setItem('token', token);
-      window.location.href = "/";
-    } else {
-      this.setState({shouldHide: false});
+    let response = await User.doLogin({ login, password });
+    if (!response) {
+      this.setState({ shouldHide: false });
+      //TODO incluir aviso de falha 
+      //( pode mostarr o response.error mesmo, ja esta em pt-br)
+      return
     }
+    if (response.error) {
+      this.setState({ shouldHide: false });
+      //TODO incluir aviso de falha 
+      //mesma coisa
+      return
+    }
+    window.location.href = "/";
   }
 
   changeHandler = (event) => {
     let nam = event.target.name;
     let val = event.target.value;
-    this.setState({[nam]: val});
+    this.setState({ [nam]: val });
   }
 
   render() {
@@ -140,7 +153,7 @@ class Login extends React.Component {
                       </Link>
                     </Col>
                     <Col className="text-right" xs="6">
-                    <Link className="text-light" to="/create-account" tag={Link}>
+                      <Link className="text-light" to="/create-account" tag={Link}>
                         <small>Registrar</small>
                       </Link>
                     </Col>
