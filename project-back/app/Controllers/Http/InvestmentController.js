@@ -32,12 +32,13 @@ class InvestmentController {
    */
   async get({ params }) {
     let { page, status } = params
-    let query = await Investment.query()
+    let query = Investment.query()
+      .with('startup.user')
     if (status) {
       query.where('status', status) //'open', 'timeout', 'done', 'canceled'
     }
-    query.with('startup.user').orderBy('id', 'DESC')
-    const data = query.paginate((page > 0) ? page : 1);
+    query.orderBy('id', 'DESC')
+    const data = await query.paginate((page > 0) ? page : 1);
 
     return data;
   }

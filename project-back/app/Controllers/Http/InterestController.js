@@ -31,15 +31,16 @@ class InterestController {
    */
   async get({ params }) {
     let { page, investment_id, user_id } = params
-    let query = await Interest.query()
+    let query = Interest.query()
+      .with('investment.startup.user')
     if (investment_id) {
-      query.where('investment_id', investment_id) //'open', 'timeout', 'done', 'canceled'
+      query.where('investment_id', investment_id)
     }
     if (user_id) {
-      query.where('user_id', user_id) //'open', 'timeout', 'done', 'canceled'
+      query.where('user_id', user_id)
     }
-    query.with('investment.startup.user').orderBy('id', 'DESC')
-    const data = query.paginate((page > 0) ? page : 1);
+    query.orderBy('id', 'DESC')
+    const data = await query.paginate((page > 0) ? page : 1);
 
     return data;
   }
