@@ -24,7 +24,7 @@ import './index.css';
 
 import * as serviceWorker from './serviceWorker';
 
-let token = localStorage.getItem('token');
+let token = localStorage.getItem('TOKEN_KEY');
 
 ReactDOM.render(
   <BrowserRouter>
