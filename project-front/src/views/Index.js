@@ -17,7 +17,6 @@ import DemoNavbar from "../components/Navbars/DemoNavbar.js";
 import SimpleFooter from "../components/Footers/SimpleFooter.js";
 
 // index page sections
-// import Download from "../IndexSections/Download.js";
 
 class Index extends React.Component {
   state = {};
@@ -85,9 +84,6 @@ class Index extends React.Component {
                   </Col>
                   <Col md="3">
                     <Card className="border-0">
-                      {/* <CardHeader>
-                          <h4>Resumo dos Seus Investimentos</h4>
-                      </CardHeader> */}
                       <CardBody className="py-5">
                         <Row>
                           <h5>Resumo dos Seus Investimentos</h5>

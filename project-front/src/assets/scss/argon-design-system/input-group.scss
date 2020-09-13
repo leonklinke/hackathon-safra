@@ -32,10 +32,14 @@
   transition: $transition-base;
 }
 
+.input-medium {
+	width: 50% !important;
+}
+
 .input-group-alternative {
     box-shadow: $input-alternative-box-shadow;
     border: 0;
-    transition: box-shadow .15s ease;
+	transition: box-shadow .15s ease;
 
     .form-control,
     .input-group-text {

@@ -1,5 +1,5 @@
 import React from "react";
-// nodejs library that concatenates classes
+import { Link } from "react-router-dom";
 
 // reactstrap components
 import {
@@ -7,11 +7,10 @@ import {
   CardBody,
   Container,
   Row,
-  Col,
+  Col
 } from "reactstrap";
 
 // core components
-import DetailsModal from "./DetailsModal.js";
 import DemoNavbar from "../../components/Navbars/DemoNavbar.js";
 import SimpleFooter from "../../components/Footers/SimpleFooter.js";
 
@@ -60,7 +59,11 @@ class Offers extends React.Component {
                                 <td>Meta</td>
                                 <td>% Arrecadado</td>
                                 <td>Risco</td>
-                                <td><DetailsModal teste={'testeA'}></DetailsModal></td>
+                                <td>
+                                  <Link className="text-light" to="/detalhe-ofertas/A" tag={Link}>
+                                    <i className="fa fa-search"></i>
+                                  </Link>
+                                </td>
                             </tr>
                             <tr>
                                 <th scope="row">STARTUP B</th>
@@ -68,7 +71,11 @@ class Offers extends React.Component {
                                 <td>Meta</td>
                                 <td>% Arrecadado</td>
                                 <td>Risco</td>
-                                <td><DetailsModal teste={'testeB'}></DetailsModal></td>
+                                <td>
+                                  <Link className="text-light" to="/detalhe-ofertas/B" tag={Link}>
+                                    <i className="fa fa-search"></i>
+                                  </Link>
+                                </td>
                             </tr>
                             <tr>
                                 <th scope="row">STARTUP C</th>
@@ -76,7 +83,11 @@ class Offers extends React.Component {
                                 <td>Meta</td>
                                 <td>% Arrecadado</td>
                                 <td>Risco</td>
-                                <td><DetailsModal teste={'testeC'}></DetailsModal></td>
+                                <td>
+                                  <Link className="text-light" to="/detalhe-ofertas/C" tag={Link}>
+                                    <i className="fa fa-search"></i>
+                                  </Link>
+                                </td>
                             </tr>
                             <tr>
                                 <th scope="row">STARTUP D</th>
@@ -84,7 +95,11 @@ class Offers extends React.Component {
                                 <td>Meta</td>
                                 <td>% Arrecadado</td>
                                 <td>Risco</td>
-                                <td><DetailsModal teste={'testeD'}></DetailsModal></td>
+                                <td>
+                                  <Link className="text-light" to="/detalhe-ofertas/D" tag={Link}>
+                                    <i className="fa fa-search"></i>
+                                  </Link>
+                                </td>
                             </tr>
                         </tbody>
                     </table>
@@ -124,9 +139,6 @@ class Offers extends React.Component {
                       </CardBody>
                     </Card>
                   </Col>
-                </Row>
-                <Row>
-                  
                 </Row>
               </Container>
             </section>
