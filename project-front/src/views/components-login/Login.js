@@ -52,12 +52,14 @@ class Login extends React.Component {
       this.setState({ shouldHide: false });
       //TODO incluir aviso de falha 
       //( pode mostarr o response.error mesmo, ja esta em pt-br)
+      console.log(response.error);
       return
     }
     if (response.error) {
       this.setState({ shouldHide: false });
       //TODO incluir aviso de falha 
       //mesma coisa
+      console.log(response.error);
       return
     }
     window.location.href = "/";

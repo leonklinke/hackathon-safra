@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import User from "../../services/user";
 
 import {
     Button,
@@ -27,7 +28,7 @@ import {
   
       this.handleSubmit = this.handleSubmit.bind(this);
     }
-  
+
     handleSubmit = async (event) => {
       event.preventDefault();
       // let login = this.state.login;
@@ -84,24 +85,6 @@ import {
                                 </InputGroupText>
                               </InputGroupAddon>
                               <Input placeholder="Login" ref="login" type="text" name="login" id="login" onChange={this.changeHandler} />
-                            </InputGroup>
-                          </FormGroup>
-                          <FormGroup>
-                            <InputGroup className="input-group-alternative">
-                              <InputGroupAddon addonType="prepend">
-                                <InputGroupText>
-                                  <i className="ni ni-lock-circle-open" />
-                                </InputGroupText>
-                              </InputGroupAddon>
-                              <Input
-                                placeholder="Password"
-                                type="password"
-                                autoComplete="off"
-                                id="password"
-                                name="password"
-                                ref="password"
-                                onChange={this.changeHandler}
-                              />
                             </InputGroup>
                           </FormGroup>
                           <div className="text-center">

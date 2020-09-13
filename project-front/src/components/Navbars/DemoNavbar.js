@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import User from "../../services/user";
 
 // JavaScript plugin that hides or shows a component based on your scroll
 import Headroom from "headroom.js";
@@ -42,7 +43,8 @@ class DemoNavbar extends React.Component {
   };
 
   logout = () => {
-    localStorage.removeItem('token');
+    // localStorage.removeItem('TOKEN_KEY');
+    User.logout();
     window.location.href = "/login";
   }
 
